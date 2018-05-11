@@ -8,19 +8,25 @@ import java.util.Set;
 public class Recipe {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
     private String description;
-    private Difficulty difficulty;
-    private List<String> instructions;
-    private List<String> tags;
     private String source;
     private String url;
 
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-    private List<Ingredient> ingredients;
+    private Set<Ingredient> ingredients;
+
+    @ElementCollection
+    private List<String> instructions;
+
+    @ElementCollection
+    private Set<String> tags;
 
     @Lob
     private Set<Byte[]> images;
@@ -57,11 +63,11 @@ public class Recipe {
         this.difficulty = difficulty;
     }
 
-    public List<Ingredient> getIngredients() {
+    public Set<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -73,11 +79,11 @@ public class Recipe {
         this.instructions = instructions;
     }
 
-    public List<String> getTags() {
+    public Set<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(Set<String> tags) {
         this.tags = tags;
     }
 
