@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> {
+public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private RecipeRepository recipeRepository;
     private UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public DevBootstrap(RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public RecipeBootstrap(RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
@@ -30,19 +30,22 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
     private void initData() {
 
+        Recipe mozzarellaPizzaRecipe = new Recipe();
+        Recipe whitePizzaRecipe = new Recipe();
+
         UnitOfMeasure gr = unitOfMeasureRepository.findUnitOfMeasureByUnit("cc").get();
         UnitOfMeasure toTaste = unitOfMeasureRepository.findUnitOfMeasureByUnit("to taste").get();
         UnitOfMeasure tbsp = unitOfMeasureRepository.findUnitOfMeasureByUnit("tbsp").get();
         UnitOfMeasure cc = unitOfMeasureRepository.findUnitOfMeasureByUnit("cc").get();
 
-        Ingredient water = new Ingredient("Water", 350.0, cc);
-        Ingredient salt = new Ingredient("Salt", 14.0, gr);
-        Ingredient oil = new Ingredient("Oil", 0.0, toTaste);
-        Ingredient oliveOil = new Ingredient("Olive Oil", 0.0, toTaste);
-        Ingredient yeast = new Ingredient("Yeast", 40.0, gr);
-        Ingredient flour = new Ingredient("Flour", 700.0, gr);
-        Ingredient tomatoSauce = new Ingredient("Tomato Sauce", 1.0, tbsp);
-        Ingredient mozzarella = new Ingredient("Mozzarella", 200.0, gr);
+        Ingredient water = new Ingredient("Water", 350.0, cc, mozzarellaPizzaRecipe);
+        Ingredient salt = new Ingredient("Salt", 14.0, gr, mozzarellaPizzaRecipe);
+        Ingredient oil = new Ingredient("Oil", 0.0, toTaste, mozzarellaPizzaRecipe);
+        Ingredient oliveOil = new Ingredient("Olive Oil", 0.0, toTaste, mozzarellaPizzaRecipe);
+        Ingredient yeast = new Ingredient("Yeast", 40.0, gr, mozzarellaPizzaRecipe);
+        Ingredient flour = new Ingredient("Flour", 700.0, gr, mozzarellaPizzaRecipe);
+        Ingredient tomatoSauce = new Ingredient("Tomato Sauce", 1.0, tbsp, mozzarellaPizzaRecipe);
+        Ingredient mozzarella = new Ingredient("Mozzarella", 200.0, gr, mozzarellaPizzaRecipe);
 
         String[] pizzaDoughInstructions = {"Dough",
                 "Dissolve the yeast with warm water",
@@ -70,7 +73,6 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         Set<Ingredient> mozzarellaPizzaIngredients = new HashSet<>();
         Collections.addAll(mozzarellaPizzaIngredients, water, salt, oil, yeast, flour, mozzarella, oliveOil, tomatoSauce);
 
-        Recipe mozzarellaPizzaRecipe = new Recipe();
         mozzarellaPizzaRecipe.setName("Classic Pizza");
         mozzarellaPizzaRecipe.setDescription("The famous and classic Mozzarella Pizza, super crispy and crunchy, and of course a lot of cheese");
         mozzarellaPizzaRecipe.setInstructions(pizzaInstructions);
@@ -81,15 +83,15 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
         recipeRepository.save(mozzarellaPizzaRecipe);
 
-        Ingredient water2 = new Ingredient("Water", 350.0, cc);
-        Ingredient salt2 = new Ingredient("Salt", 14.0, gr);
-        Ingredient oil2 = new Ingredient("Oil", 0.0, toTaste);
-        Ingredient oliveOil2 = new Ingredient("Olive Oil", 0.0, toTaste);
-        Ingredient yeast2 = new Ingredient("Yeast", 40.0, gr);
-        Ingredient flour2 = new Ingredient("Flour", 700.0, gr);
-        Ingredient ham = new Ingredient("Ham", 100.0, gr);
-        Ingredient mozzarella2 = new Ingredient("Mozzarella", 250.0, gr);
-        Ingredient rucula = new Ingredient("Rucula", 50.0, gr);
+        Ingredient water2 = new Ingredient("Water", 350.0, cc, whitePizzaRecipe);
+        Ingredient salt2 = new Ingredient("Salt", 14.0, gr, whitePizzaRecipe);
+        Ingredient oil2 = new Ingredient("Oil", 0.0, toTaste, whitePizzaRecipe);
+        Ingredient oliveOil2 = new Ingredient("Olive Oil", 0.0, toTaste, whitePizzaRecipe);
+        Ingredient yeast2 = new Ingredient("Yeast", 40.0, gr, whitePizzaRecipe);
+        Ingredient flour2 = new Ingredient("Flour", 700.0, gr, whitePizzaRecipe);
+        Ingredient ham = new Ingredient("Ham", 100.0, gr, whitePizzaRecipe);
+        Ingredient mozzarella2 = new Ingredient("Mozzarella", 250.0, gr, whitePizzaRecipe);
+        Ingredient rucula = new Ingredient("Rucula", 50.0, gr, whitePizzaRecipe);
 
         List<String> pizzaInstructions2 = new ArrayList<>();
         pizzaInstructions2.addAll(Arrays.asList(pizzaDoughInstructions));
@@ -98,7 +100,6 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         Set<Ingredient> whitePizzaIngredients = new HashSet<>();
         Collections.addAll(whitePizzaIngredients, water2, salt2, oil2, yeast2, flour2, mozzarella2, oliveOil2, ham, rucula);
 
-        Recipe whitePizzaRecipe = new Recipe();
         whitePizzaRecipe.setName("White Pizza");
         whitePizzaRecipe.setDescription("White Pizza is a variant with no sauce, but with Ham and Rucula");
         whitePizzaRecipe.setInstructions(pizzaInstructions2);

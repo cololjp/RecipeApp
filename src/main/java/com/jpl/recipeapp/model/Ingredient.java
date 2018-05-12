@@ -1,5 +1,7 @@
 package com.jpl.recipeapp.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,10 +20,11 @@ public class Ingredient {
     @ManyToOne
     private Recipe recipe;
 
-    public Ingredient(String description, Double amount, UnitOfMeasure unitOfMeasure) {
+    public Ingredient(String description, Double amount, UnitOfMeasure unitOfMeasure, Recipe recipe) {
         this.description = description;
         this.amount = amount;
         this.unitOfMeasure = unitOfMeasure;
+        this.recipe = recipe;
     }
 
     public String getDescription() {
